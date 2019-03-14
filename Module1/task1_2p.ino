@@ -8,19 +8,18 @@ void setup()
   pinMode(2, INPUT);
   pinMode(13, OUTPUT);
   digitalWrite(buttonPin, HIGH);
+  
+  attachInterrupt(0,pin_ISR, CHANGE);
   Serial.begin(10);
 }
 
 void loop()
 {
-  Serial.println(buttonState);
+  
+}
+
+void pin_ISR() {
   buttonState = digitalRead(buttonPin);
-  
-  
-  if (buttonState == LOW){
-    digitalWrite(ledPin, HIGH);
-  }
-  else{
-    digitalWrite(ledPin, LOW);
-  }
+  digitalWrite(ledPin, !buttonState);
+  Serial.println(buttonState);
 }
