@@ -24,20 +24,22 @@ void setup()
   digitalWrite(buttonPin, HIGH);
   
   attachInterrupt(digitalPinToInterrupt(2), pin_ISR, CHANGE);
-  Serial.begin(9600);
+  Serial.begin(100);
 }
 
 void loop()
 {
   //Temperature loop
   int tempSensorValue = analogRead(A0);
-  //Serial.println(tempSensorValue);
+  Serial.println(tempSensorValue);
+    
   if(tempSensorValue > 176){
     digitalWrite(bledPin, HIGH);
   } else {
     digitalWrite(bledPin, LOW);
   }
   
+    
   //Button loop
   buttonState = digitalRead(buttonPin);
   Serial.println(buttonState);
@@ -54,5 +56,5 @@ void loop()
 void pin_ISR() {
   tiltState = digitalRead(tiltPin);
   digitalWrite(gledPin, !tiltState);
-  //Serial.println(tiltState);
+  Serial.println(tiltState);
 }
