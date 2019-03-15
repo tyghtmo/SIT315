@@ -27,7 +27,7 @@ void setup()
   
   attachInterrupt(digitalPinToInterrupt(tiltPin), tilt, CHANGE);
   attachInterrupt(digitalPinToInterrupt(buttonPin), button, CHANGE);
-  Serial.begin(100);
+  Serial.begin(9600);
   
   //timer interrupt setup
   cli(); //disable interrupts
@@ -49,34 +49,40 @@ void loop()
 {
   //Temperature loop
   int tempSensorValue = analogRead(tempPin);
-  //Serial.println(tempSensorValue);
   
   if(tempSensorValue > 176){
     digitalWrite(bledPin, HIGH);
+    Serial.print("Temperature: ");
+    Serial.println(tempSensorValue);
   } else {
     digitalWrite(bledPin, LOW);
+    
   }
   
 }
 
 ISR(TIMER1_COMPA_vect){//timer1 interrupt 1Hz toggles pin 13 (LED)
 //generates pulse wave of frequency 1Hz/2 = 0.5kHz (takes two cycles for full wave- toggle high then toggle low)
-  Serial.println(digitalRead(led));
+  
   if(digitalRead(led) == HIGH){
     digitalWrite(led, LOW);
   } else {
     digitalWrite(led, HIGH);
   }
+  Serial.print("Built-in LED status: ");
+  Serial.println(digitalRead(led));
 }
 
 void tilt() {
   tiltState = digitalRead(tiltPin);
   digitalWrite(gledPin, !tiltState);
+  Serial.print("Tilt state: ");
   Serial.println(tiltState);
 }
 
 void button() {
   buttonState = digitalRead(buttonPin);
   digitalWrite(rledPin, buttonState);
+  Serial.print("Button state: ");
   Serial.println(buttonState);
 }
