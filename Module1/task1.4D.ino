@@ -1,4 +1,4 @@
-#include <avr/interrupt.h>
+//#include <avr/interrupt.h>
 //inputs
 const int tiltPin = 2;
 const int buttonPin = 3;
@@ -12,6 +12,8 @@ const int led = 13;
 
 volatile int tiltState = 0;
 volatile int buttonState = 0;
+
+int currentTemp = 0;
 
 void setup()
 {
@@ -28,6 +30,8 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(tiltPin), tilt, CHANGE);
   attachInterrupt(digitalPinToInterrupt(buttonPin), button, CHANGE);
   Serial.begin(9600);
+  
+  currentTemp = analogRead(tempPin);
   
   //timer interrupt setup
   cli(); //disable interrupts
@@ -52,11 +56,14 @@ void loop()
   
   if(tempSensorValue > 176){
     digitalWrite(bledPin, HIGH);
-    Serial.print("Temperature: ");
-    Serial.println(tempSensorValue);
   } else {
     digitalWrite(bledPin, LOW);
-    
+  }
+  
+  if(tempSensorValue != currentTemp){
+    Serial.print("Temperature: ");
+    Serial.println(tempSensorValue);
+    currentTemp = tempSensorValue;
   }
   
 }
