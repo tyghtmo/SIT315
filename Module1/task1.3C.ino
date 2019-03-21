@@ -1,4 +1,3 @@
-#include <avr/interrupt.h>
 //inputs
 const int tiltPin = 2;
 const int buttonPin = 3;
