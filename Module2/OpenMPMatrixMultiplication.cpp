@@ -10,7 +10,7 @@
 using namespace std;
 
 const int maxNumber = 1;
-const int matrixSize = 1000;
+const int matrixSize = 2000;
 const int maxThreads = 4;
 
 //Function to fill matrix a and b with random numbers
@@ -60,7 +60,7 @@ int main()
 
 
 		// Multiplying matrix a and b and storing in array mult.
-		# pragma omp parallel for
+#pragma omp parallel for private(i,j,k) shared(matrixA,matrixB,matrixC)
 		for (i = 0; i < matrixSize; ++i) 
 		{
 			for (j = 0; j < matrixSize; ++j) 
